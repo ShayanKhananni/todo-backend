@@ -66,11 +66,10 @@ mongoose.connect(process.env.MONGO)
   console.log(err);
 })
 
+app.get('/',()=>
+{
+  res.status(200).json({message:"Hello Wolrd"});
+})
 
-
-// app.get('/check-cookie',(req,res)=>
-// {
-
-// })
 
 

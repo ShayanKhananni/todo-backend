@@ -66,7 +66,7 @@ mongoose.connect(process.env.MONGO)
   console.log(err);
 })
 
-app.get('/',()=>
+app.get('/api/',(req,res)=>
 {
   res.status(200).json({message:"Hello Wolrd"});
 })

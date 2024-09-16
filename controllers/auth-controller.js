@@ -92,13 +92,14 @@ export const signin = async (req, res, next) => {
       updatedAt,
       ...user
     } = validUser._doc;
+    res;
     res
-      .setHeader(
-        "Set-Cookie",
-        `auth_token=${token}; Path=/; Expires=${new Date(
-          Date.now() + 86400000
-        ).toUTCString()}`
-      )
+      .cookie("auth_token", token, {
+        // httpOnly: true,
+        // secure: true, // Make sure this is true in production (i.e., on Vercel)
+        sameSite: "None", // Must be None for cross-origin requests
+        maxAge: 86400000, // 1 day expiration
+      })
       .status(200)
       .json(user);
   } catch (err) {

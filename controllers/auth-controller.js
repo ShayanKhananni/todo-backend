@@ -45,9 +45,9 @@ export const signinGoogle = async (req,res,next) =>
       const { password,createdAt,updatedAt,...user} = validUser._doc;
 
         res.cookie("auth_token", token, {
-          // httpOnly: true,
-          // sameSite: "Lax",
-          // secure: true,
+          httpOnly: true,
+          sameSite: "Lax",
+          secure: true,
           expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY))
         })
         .status(200)
@@ -67,9 +67,9 @@ export const signinGoogle = async (req,res,next) =>
 
       res.cookie('auth_token',token,
       {
-        // httpOnly:true,
-        // sameSite: "Lax",
-        // secure: true,
+        httpOnly:true,
+        sameSite: "Lax",
+        secure: true,
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY))
       }).status(200)
       .json(user);
@@ -100,9 +100,9 @@ export const signin = async (req,res,next) =>
 
     const { password:hashedPassword,createdAt,updatedAt,...user } = validUser._doc;
     res.cookie('auth_token',token,{
-      expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY))
-      // secure: true, // The cookie will be sent over HTTPS only
-      // httpOnly: true // The cookie cannot be accessed by client-side scripts
+      expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+      secure: true,
+      httpOnly: true
     }).json(user);
   }
   catch(err)

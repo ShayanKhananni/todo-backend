@@ -7,6 +7,7 @@ export const authMiddleWare = (req,res,next) =>
   if(!token)
   {
     next(customError(404,'Access Denied no token Provided'));
+    
   }
   jwt.verify(token,process.env.JWT_SECRET,(err)=>
   {

@@ -93,13 +93,12 @@ export const signin = async (req, res, next) => {
       ...user
     } = validUser._doc;
     res
-      .cookie("auth_token", token, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        // expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        expires: new Date(Date.now() + Number(1000000)),
-      })
+      .setHeader(
+        "Set-Cookie",
+        `auth_token=${token}; Path=/; Expires=${new Date(
+          Date.now() + 86400000
+        ).toUTCString()}; HttpOnly; Secure; SameSite=None`
+      )
       .status(200)
       .json(user);
   } catch (err) {

@@ -39,7 +39,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send(200).json({ message: "hello Wolrd" });
+  res.status(200).json({ message: "hello Wolrd" });
 });
 
 app.listen(3000, () => {

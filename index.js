@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/test", testRouter);
+// app.use("/test", testRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/todo", todoRouter);
@@ -52,6 +52,6 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.status(200).json({ message: "Hello Wolrd" });
 });

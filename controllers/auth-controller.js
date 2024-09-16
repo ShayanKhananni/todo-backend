@@ -63,7 +63,7 @@ export const signinGoogle = async (req, res, next) => {
           httpOnly: true,
           sameSite: "None",
           secure: true,
-          expires: 500000,
+          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
         .json(user);
@@ -98,7 +98,7 @@ export const signin = async (req, res, next) => {
         // httpOnly: true,
         // secure: true, // Make sure this is true in production (i.e., on Vercel)
         sameSite: "None", // Must be None for cross-origin requests
-        maxAge: 86400000, // 1 day expiration
+        expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
       })
       .status(200)
       .json(user);

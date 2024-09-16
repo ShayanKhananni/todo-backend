@@ -24,10 +24,10 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/test", testRouter);
-app.use("/user", userRouter);
-app.use("/auth", authRouter);
-app.use("/todo", todoRouter);
+app.use("/api/test", testRouter);
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/todo", todoRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -51,4 +51,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-

@@ -95,12 +95,13 @@ export const signin = async (req, res, next) => {
     } = validUser._doc;
     res
       .cookie("auth_token", token, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+        // httpOnly: true,
+        // sameSite: "None",
+        // secure: true,
+        // expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+        expires: 500000,
       })
-      .json(user);
+      .json(user, token);
   } catch (err) {
     next(err);
   }

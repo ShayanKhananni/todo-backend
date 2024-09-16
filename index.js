@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin:"https://todo-client-nof0naxta-shayans-projects-6c672329.vercel.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

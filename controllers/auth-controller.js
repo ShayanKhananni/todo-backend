@@ -33,9 +33,9 @@ export const signinGoogle = async (req, res, next) => {
 
       res
         .cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
+          // httpOnly: true,
+          // sameSite: "None",
+          // secure: true,
           expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
@@ -60,9 +60,9 @@ export const signinGoogle = async (req, res, next) => {
 
       res
         .cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
+          // httpOnly: true,
+          // sameSite: "None",
+          // secure: true,
           expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
@@ -95,9 +95,9 @@ export const signin = async (req, res, next) => {
     res;
     res
       .cookie("auth_token", token, {
-        // httpOnly: true,
-        // secure: true, // Make sure this is true in production (i.e., on Vercel)
-        sameSite: "None", // Must be None for cross-origin requests
+        httpOnly: true,
+        secure: true, // Make sure this is true in production (i.e., on Vercel)
+        
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
       })
       .status(200)

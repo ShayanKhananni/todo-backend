@@ -29,7 +29,6 @@ export const signinGoogle = async (req, res, next) => {
   try {
     if (validUser) {
       const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-
       const { password, createdAt, updatedAt, ...user } = validUser._doc;
 
       res
@@ -41,7 +40,7 @@ export const signinGoogle = async (req, res, next) => {
           expires: 500000,
         })
         .status(200)
-        .json(user);
+        .json(user, token);
     } else {
       const password = bycrypt.hashSync(
         Math.random().toString(36).slice(-8) +

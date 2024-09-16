@@ -44,14 +44,15 @@ export const signinGoogle = async (req,res,next) =>
 
       const { password,createdAt,updatedAt,...user} = validUser._doc;
 
-        res.cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "Lax",
-          secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY))
-        })
-        .status(200)
-        .json(user);
+        res
+          .cookie("auth_token", token, {
+            httpOnly: true,
+            sameSite: "None",
+            secure: true,
+            expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+          })
+          .status(200)
+          .json(user);
     }
 
 
@@ -65,14 +66,15 @@ export const signinGoogle = async (req,res,next) =>
       const { password:hashedPassword,createdAt,updatedAt,...user} = newUser._doc;
       const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET);
 
-      res.cookie('auth_token',token,
-      {
-        httpOnly:true,
-        sameSite: "Lax",
-        secure: true,
-        expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY))
-      }).status(200)
-      .json(user);
+      res
+        .cookie("auth_token", token, {
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
+          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+        })
+        .status(200)
+        .json(user);
     }
   } catch (err) {
     console.log(err)
@@ -99,11 +101,14 @@ export const signin = async (req,res,next) =>
     const token = jwt.sign({id:validUser._id},process.env.JWT_SECRET);
 
     const { password:hashedPassword,createdAt,updatedAt,...user } = validUser._doc;
-    res.cookie('auth_token',token,{
-      expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-      secure: true,
-      httpOnly: true
-    }).json(user);
+    res
+      .cookie("auth_token", token, {
+        httpOnly: true,
+        sameSite: "None", 
+        secure: true, 
+        expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+      })
+      .json(user);
   }
   catch(err)
   {

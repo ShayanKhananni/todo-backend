@@ -71,7 +71,7 @@ export const signinGoogle = async (req,res,next) =>
           // httpOnly: true,
           // sameSite: "None",
           // secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+          expires: 50000000
         })
         .status(200)
         .json(user);

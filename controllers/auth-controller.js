@@ -33,11 +33,10 @@ export const signinGoogle = async (req, res, next) => {
 
       res
         .cookie("auth_token", token, {
-          // httpOnly: true,
-          // sameSite: "None",
-          // secure: true,
-          // expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-          expires: 500000,
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
+          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
         .json(user, token);
@@ -61,9 +60,9 @@ export const signinGoogle = async (req, res, next) => {
 
       res
         .cookie("auth_token", token, {
-          // httpOnly: true,
-          // sameSite: "None",
-          // secure: true,
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
           expires: 500000,
         })
         .status(200)
@@ -95,9 +94,9 @@ export const signin = async (req, res, next) => {
     } = validUser._doc;
     res
       .cookie("auth_token", token, {
-        // httpOnly: true,
-        // sameSite: "None",
-        // secure: true,
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
         // expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         expires: new Date(Date.now() + Number(1000000)),
       })

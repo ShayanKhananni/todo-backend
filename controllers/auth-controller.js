@@ -100,8 +100,8 @@ export const signin = async (req, res, next) => {
         // secure: true,
         // expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         expires: 500000,
-      })
-      .json(user, token);
+      }).status(200)
+      .json(user);
   } catch (err) {
     next(err);
   }

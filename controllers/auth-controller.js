@@ -97,7 +97,7 @@ export const signin = async (req, res, next) => {
         "Set-Cookie",
         `auth_token=${token}; Path=/; Expires=${new Date(
           Date.now() + 86400000
-        ).toUTCString()}; HttpOnly; Secure; SameSite=None`
+        ).toUTCString()}`
       )
       .status(200)
       .json(user);

@@ -95,9 +95,8 @@ export const signin = async (req, res, next) => {
     res;
     res
       .cookie("auth_token", token, {
-        httpOnly: true,
-        secure: true, // Make sure this is true in production (i.e., on Vercel)
-        
+        // httpOnly: true,
+        // secure: true, // Make sure this is true in production (i.e., on Vercel)
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
       })
       .status(200)

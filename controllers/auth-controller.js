@@ -26,17 +26,16 @@ export const signup = async (req, res, next) => {
 
 
 
-
-
 export const signinGoogle = async (req, res, next) => {
 
 
   const { displayName, email, photoURL } = req.body;
-  // const validUser = await User.findOne({ email });
-  res.status(200).json(req.body);
+  const validUser = await User.findOne({ email });
 
+  if (validUser) {
+    res.status(200).json(req.body);
+  }
 
-  
   // try {
     // if (validUser) {
     //   const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);

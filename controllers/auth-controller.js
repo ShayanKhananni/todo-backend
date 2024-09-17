@@ -92,11 +92,12 @@ export const signin = async (req, res, next) => {
       updatedAt,
       ...user
     } = validUser._doc;
-    res;
+
     res
       .cookie("auth_token", token, {
-        // httpOnly: true,
-        // secure: true, // Make sure this is true in production (i.e., on Vercel)
+        httpOnly: true,  // Keeps the cookie inaccessible from JavaScript
+        secure: false, // Set to true when your frontend is served over HTTPS in production
+        sameSite: "None", // Required for cross-origin cookies
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
       })
       .status(200)

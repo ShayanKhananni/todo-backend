@@ -23,56 +23,81 @@ export const signup = async (req, res, next) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
 export const signinGoogle = async (req, res, next) => {
   const { displayName, email, photoURL } = req.body;
   const validUser = await User.findOne({ email });
+
   try {
     if (validUser) {
       const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
       const { password, createdAt, updatedAt, ...user } = validUser._doc;
-
       res
         .cookie("auth_token", token, {
-          // httpOnly: true,
-          // sameSite: "None",
-          // secure: true,
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
           expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
         .json(user, token);
-    } else {
-      const password = bycrypt.hashSync(
-        Math.random().toString(36).slice(-8) +
-          Math.random().toString(36).slice(-8)
-      );
-      const username =
-        displayName.split(" ").join("_").toLowerCase() +
-        Math.floor(Math.random() * 10000 + 1);
-      const newUser = new User({ username, email, password, photoURL });
-      await newUser.save();
-      const {
-        password: hashedPassword,
-        createdAt,
-        updatedAt,
-        ...user
-      } = newUser._doc;
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+    // } else {
+    //   const password = bycrypt.hashSync(
+    //     Math.random().toString(36).slice(-8) +
+    //       Math.random().toString(36).slice(-8)
+    //   );
+    //   const username =
+    //     displayName.split(" ").join("_").toLowerCase() +
+    //     Math.floor(Math.random() * 10000 + 1);
+    //   const newUser = new User({ username, email, password, photoURL });
+    //   await newUser.save();
+    //   const {
+    //     password: hashedPassword,
+    //     createdAt,
+    //     updatedAt,
+    //     ...user
+    //   } = newUser._doc;
 
-      res
-        .cookie("auth_token", token, {
-          // httpOnly: true,
-          // sameSite: "None",
-          // secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        })
-        .status(200)
-        .json(user);
+    //   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+    //   res
+    //     .cookie("auth_token", token, {
+    //       httpOnly: true,
+    //       sameSite: "None",
+    //       secure: true,
+    //       expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+    //     })
+    //     .status(200)
+    //     .json(user);
     }
   } catch (err) {
     console.log(err);
     next(err);
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;

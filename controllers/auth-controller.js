@@ -37,10 +37,7 @@ export const signinGoogle = async (req, res, next) => {
     {
       const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
       const { password, createdAt, updatedAt, ...user } = validUser._doc;
-
       res.status(200).json({token,user});
-
-      
       // res
       //   .cookie("auth_token", token, {
       //     httpOnly: true,
@@ -53,13 +50,12 @@ export const signinGoogle = async (req, res, next) => {
     }
     else
     {
-      // const username = displayName.split(" ").join("_").toLowerCase() +
-      // Math.floor(Math.random() * 10000 + 1);
-      // const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
-      // const newUser = new User({ username, email, password, photoURL });
-      // await newUser.save();
-      // res.status(200).json(newUser);
-      res.status(200).json({message:'invalid user'});
+      const username = displayName.split(" ").join("_").toLowerCase() +
+      Math.floor(Math.random() * 10000 + 1);
+      const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
+      const newUser = new User({ username, email, password, photoURL });
+      await newUser.save();
+      res.status(200).json({message:'user saved',newUser});
     }
 
   }

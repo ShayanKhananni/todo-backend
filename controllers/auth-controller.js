@@ -2,6 +2,7 @@ import User from "../models/user-model.js";
 import bycrypt from "bcryptjs";
 import { customError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { json } from "express";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -27,29 +28,28 @@ export const signup = async (req, res, next) => {
 
 
 
-
-
-
-
-
-
 export const signinGoogle = async (req, res, next) => {
-  const { displayName, email, photoURL } = req.body;
-  const validUser = await User.findOne({ email });
 
-  try {
-    if (validUser) {
-      const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-      const { password, createdAt, updatedAt, ...user } = validUser._doc;
-      res
-        .cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        })
-        .status(200)
-        .json(user, token);
+
+  const { displayName, email, photoURL } = req.body;
+  // const validUser = await User.findOne({ email });
+  res.status(200).json(req.body);
+
+
+  
+  // try {
+    // if (validUser) {
+    //   const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    //   const { password, createdAt, updatedAt, ...user } = validUser._doc;
+    //   res
+    //     .cookie("auth_token", token, {
+    //       httpOnly: true,
+    //       sameSite: "None",
+    //       secure: true,
+    //       expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+    //     })
+    //     .status(200)
+    //     .json(user, token);
     // } else {
     //   const password = bycrypt.hashSync(
     //     Math.random().toString(36).slice(-8) +
@@ -69,31 +69,19 @@ export const signinGoogle = async (req, res, next) => {
 
     //   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
-    //   res
-    //     .cookie("auth_token", token, {
-    //       httpOnly: true,
-    //       sameSite: "None",
-    //       secure: true,
-    //       expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-    //     })
-    //     .status(200)
-    //     .json(user);
-    }
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+    //   // res
+    //   //   .cookie("auth_token", token, {
+    //   //     httpOnly: true,
+    //   //     sameSite: "None",
+    //   //     secure: true,
+    //   //     expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+    //   //   })
+    //   res.status(200).json(user);
+    // }
+  // } catch (err) {
+  //   next(err);
+  // }
 };
-
-
-
-
-
-
-
-
-
-
 
 
 

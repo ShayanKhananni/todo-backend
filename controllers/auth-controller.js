@@ -46,7 +46,7 @@ export const signinGoogle = async (req, res, next) => {
           expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
         })
         .status(200)
-        .json(user, token);
+        .json({...user,photoURL});
     }
     else
     {

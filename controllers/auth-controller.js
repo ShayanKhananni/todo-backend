@@ -74,7 +74,6 @@ export const signinGoogle = async (req, res, next) => {
   }
 };
 
-
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -95,9 +94,9 @@ export const signin = async (req, res, next) => {
     } = validUser._doc;
 
     res
-      .cookie("cookieName", user, {
+      .cookie("auth_token", token, {
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        // httpOnly: true, // Prevents client-side access to the cookie
+        httpOnly: true, // Prevents client-side access to the cookie
         secure: false, // Cookie will be sent over HTTP (not secure, for local testing)
         sameSite: "None", // Allows cross-origin requests, necessary for third-party cookies
       })

@@ -55,7 +55,7 @@ export const signinGoogle = async (req, res, next) => {
       const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
       const newUser = new User({ username, email, password, photoURL });
       await newUser.save();
-      const {createdAt,updatedAt,...user} = newUser 
+      const {createdAt,updatedAt,...user} = newUser._doc 
       const token = jwt.sign({ id:user._id }, process.env.JWT_SECRET);
       res.cookie("auth_token", token, {
           httpOnly: true,

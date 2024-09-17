@@ -35,8 +35,11 @@ export const signinGoogle = async (req, res, next) => {
   
     if(validUser)
     {
-      // const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-      // const { password, createdAt, updatedAt, ...user } = validUser._doc;
+      const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+      const { password, createdAt, updatedAt, ...user } = validUser._doc;
+
+      res.status(200).json({token,user});
+
       
       // res
       //   .cookie("auth_token", token, {
@@ -47,7 +50,6 @@ export const signinGoogle = async (req, res, next) => {
       //   })
       //   .status(200)
       //   .json(user, token);
-      res.status(200).send('user is valid');
     }
     else
     {

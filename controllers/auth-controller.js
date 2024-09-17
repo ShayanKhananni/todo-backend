@@ -72,34 +72,6 @@ export const signinGoogle = async (req, res, next) => {
     next(err)
   }
   
-
-  // try {
-  //   if (validUser) {
-      
-  //   } else {
-      
-  //     await newUser.save();
-  //     const {
-  //       password: hashedPassword,
-  //       createdAt,
-  //       updatedAt,
-  //       ...user
-  //     } = newUser._doc;
-
-  //     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-
-  //     // res
-  //     //   .cookie("auth_token", token, {
-  //     //     httpOnly: true,
-  //     //     sameSite: "None",
-  //     //     secure: true,
-  //     //     expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-  //     //   })
-  //     res.status(200).json(user);
-  //   }
-  // } catch (err) {
-  //   next(err);
-  // }
 };
 
 

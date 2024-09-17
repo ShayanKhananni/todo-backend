@@ -6,7 +6,6 @@ import authRouter from "./routers/auth-router.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import todoRouter from "./routers/todo-router.js";
-import testRouter from "./routers/testrouter.js";
 
 dotenv.config();
 
@@ -15,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin:
-      "https://todo-client-olv2ttg9d-shayans-projects-6c672329.vercel.app/",
+      "https://todo-client-olv2ttg9d-shayans-projects-6c672329.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

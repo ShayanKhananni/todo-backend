@@ -28,7 +28,6 @@ export const signup = async (req, res, next) => {
 
 export const signinGoogle = async (req, res, next) => {
 
-
   try
   {
     const { displayName, email, photoURL } = req.body;
@@ -51,12 +50,13 @@ export const signinGoogle = async (req, res, next) => {
     }
     else
     {
-      const username = displayName.split(" ").join("_").toLowerCase() +
-      Math.floor(Math.random() * 10000 + 1);
-      const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
-      const newUser = new User({ username, email, password, photoURL });
-      await newUser.save();
-      res.status(200).json(newUser);
+      // const username = displayName.split(" ").join("_").toLowerCase() +
+      // Math.floor(Math.random() * 10000 + 1);
+      // const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
+      // const newUser = new User({ username, email, password, photoURL });
+      // await newUser.save();
+      // res.status(200).json(newUser);
+      res.status(200).json({message:'invalid user'});
     }
 
   }

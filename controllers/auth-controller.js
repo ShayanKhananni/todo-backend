@@ -96,9 +96,9 @@ export const signin = async (req, res, next) => {
     res
       .cookie("auth_token", token, {
         expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        httpOnly: true, // Prevents client-side access to the cookie
-        secure: false, // Cookie will be sent over HTTP (not secure, for local testing)
-        sameSite: "None", // Allows cross-origin requests, necessary for third-party cookies
+        // httpOnly: true, 
+        secure: false, 
+        sameSite: "None", 
       })
       .status(200)
       .json(user);

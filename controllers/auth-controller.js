@@ -37,7 +37,6 @@ export const signinGoogle = async (req, res, next) => {
     {
       const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
       const { password, createdAt, updatedAt, ...user } = validUser._doc;
-      res.status(200).json({token,user});
       res
         .cookie("auth_token", token, {
           httpOnly: true,

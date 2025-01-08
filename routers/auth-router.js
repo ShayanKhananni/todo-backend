@@ -9,5 +9,6 @@ authRouter.post('/signup',signup)
 authRouter.post('/signin',signin)
 authRouter.post('/google/signin',signinGoogle)
 
+console.log("Hello Wolrd");
 export default authRouter;
 

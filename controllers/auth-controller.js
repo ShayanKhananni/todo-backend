@@ -42,13 +42,13 @@ export const signinGoogle = async (req, res, next) => {
       maxAge: 30 * 60 * 1000, // 15 minutes
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res.cookie("refresh_token", refresh_token, {
       maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res.status(200).json(validUser);
 
@@ -76,14 +76,14 @@ export const signinGoogle = async (req, res, next) => {
         maxAge: 30 * 60 * 1000, // 15 minutes
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
       });
 
       res.cookie("refresh_token", refresh_token, {
         maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
       });
       res.status(200).json(user);
     }
@@ -127,14 +127,14 @@ export const signin = async (req, res, next) => {
       maxAge: 30 * 60 * 1000, // 15 minutes
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.cookie("refresh_token", refresh_token, {
       maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res.status(200).json(user);
   } catch (err) {

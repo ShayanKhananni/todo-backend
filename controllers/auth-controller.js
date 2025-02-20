@@ -2,7 +2,6 @@ import User from "../models/user-model.js";
 import bycrypt from "bcryptjs";
 import { customError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { json } from "express";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -24,57 +23,74 @@ export const signup = async (req, res, next) => {
   }
 };
 
-
-
 export const signinGoogle = async (req, res, next) => {
-
-  try
-  {
+  try {
     const { displayName, email, photoURL } = req.body;
     const validUser = await User.findOne({ email });
-  
-    if(validUser)
-    {
-      const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+    const access_token = jwt.sign(
+      { id: validUser._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+    const refresh_token = jwt.sign(
+      { id: validUser._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+    res.cookie("access_token", access_token, {
+      maxAge: 30 * 60 * 1000, // 15 minutes
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.cookie("refresh_token", refresh_token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json(validUser);
+
+    if (validUser) {
       const { password, createdAt, updatedAt, ...user } = validUser._doc;
-      res
-        .cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        })
-        .status(200)
-        .json({...user,photoURL});
-    }
-    else
-    {
-      const username = displayName.split(" ").join("_").toLowerCase() +
-      Math.floor(Math.random() * 10000 + 1);
+    } else {
+      const username =
+        displayName.split(" ").join("_").toLowerCase() +
+        Math.floor(Math.random() * 10000 + 1);
       const password = bycrypt.hashSync(Math.random().toString(36).slice(-8));
       const newUser = new User({ username, email, password, photoURL });
       await newUser.save();
-      const {createdAt,updatedAt,...user} = newUser._doc 
-      const token = jwt.sign({ id:user._id }, process.env.JWT_SECRET);
-      res.cookie("auth_token", token, {
-          httpOnly: true,
-          sameSite: "None",
-          secure: true,
-          expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        })
-        .status(200)
-        .json(user);
+      const { createdAt, updatedAt, ...user } = newUser._doc;
+      const access_token = jwt.sign(
+        { id: validUser._id },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "15m" }
+      );
+      const refresh_token = jwt.sign(
+        { id: validUser._id },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: "7d" }
+      );
+      res.cookie("access_token", access_token, {
+        maxAge: 30 * 60 * 1000, // 15 minutes
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      });
+
+      res.cookie("refresh_token", refresh_token, {
+        maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      });
+      res.status(200).json(user);
     }
+  } catch (err) {
+    next(err);
   }
-  catch(err)
-  {
-    next(err)
-  }
-  
 };
-
-
-
 
 
 export const signin = async (req, res, next) => {
@@ -87,7 +103,17 @@ export const signin = async (req, res, next) => {
 
     if (!validPassword) return next(customError(404, "wrong creadentials"));
 
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const access_token = jwt.sign(
+      { id: validUser._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    const refresh_token = jwt.sign(
+      { id: validUser._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
 
     const {
       password: hashedPassword,
@@ -96,15 +122,21 @@ export const signin = async (req, res, next) => {
       ...user
     } = validUser._doc;
 
-    res
-      .cookie("auth_token", token, {
-        expires: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-      })
-      .status(200)
-      .json(user);
+    res.cookie("access_token", access_token, {
+      // maxAge: new Date(Date.now() + Number(process.env.COOKIE_EXPIRY)),
+      maxAge: 30 * 60 * 1000, // 15 minutes
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    res.cookie("refresh_token", refresh_token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000, /// 7 days
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json(user);
   } catch (err) {
     next(err);
   }

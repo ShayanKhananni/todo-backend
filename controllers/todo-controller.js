@@ -26,25 +26,13 @@ export const addTodo = async (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 export const getTodos = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const todos = await TodoModel.find({ user_id: id });
 
-    if (todos === []) {
+    if (todos.lenght === 0) {
       res.status(404).json({ message: "No Todos exist" });
     }
     res.status(200).json(todos);

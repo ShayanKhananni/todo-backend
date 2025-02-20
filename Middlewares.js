@@ -1,20 +1,47 @@
 import jwt from "jsonwebtoken";
 import { customError } from "./utils/error.js";
 
-export const authMiddleWare = (req,res,next) =>
-{
-  const token = req.cookies.auth_token;
-  if(!token)
-  {
-    next(customError(404,'Access Denied no token Provided'));
-    
+export const validateAccessToken = (req, res, next) => {
+  const access_token = req.cookies.access_token;
+
+  if (!access_token) {
+    return next(customError(404, "Access Token not provided"));
   }
-  jwt.verify(token,process.env.JWT_SECRET,(err)=>
-  {
-    if(err)
-    {
-    next(customError(401,'Un-Authorize Access'));
+
+  jwt.verify(access_token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      res.clearCookie("access_token");
+      return next(customError(401, "Invalid Access Token"));
     }
-  })
-  next();
-}
+    next();
+  });
+};
+
+
+export const refreshAccessToken = (req, res, next) => {
+  const refresh_token = req.cookies.refresh_token;
+
+  if (!refresh_token) {
+    return next(customError(401, "No Refresh Token Provided!"));
+  }
+
+  jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      console.log("Invalid Refresh Token");
+      res.clearCookie("refresh_token");
+      return next(customError(401, "Invalid Refresh Token"));
+    }
+
+    const new_access_token = jwt.sign({ id: decoded.id }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "15m",
+    });
+
+    res.cookie("access_token", new_access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    return res.status(200).json({ message: "Access Token Refreshed!", access_token: new_access_token });
+  });
+};

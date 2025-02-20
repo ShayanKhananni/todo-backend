@@ -10,24 +10,24 @@ import todoRouter from "./routers/todo-router.js";
 dotenv.config();
 
 const app = express();
-
 app.use(
   cors({
-    origin: "https://todo-client-six.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    // origin: "https://todo-client-six.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ['Content-Type', 'Authorization'], 
   })
 );
 
 app.use(cookieParser());
-
 app.use(express.json());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/todo", todoRouter);
 
-app.use((err, req, res, next) => {
+app.use((err,req,res,next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   return res.status(statusCode).json({
@@ -36,6 +36,8 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "hello Wolrd" });

@@ -5,3 +5,4 @@ export const customError = (statusCode,message) =>
   error.statusCode = statusCode;
   return error
 }
+

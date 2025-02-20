@@ -1,15 +1,12 @@
 import express from "express";
-import { checkSession, deleteAll, deleteUser, getAllUsers, logout, refreshSession} from "../controllers/user-controller.js"
-import { authMiddleWare } from "../Middlewares.js";
-
+import {deleteAll, deleteUser, getAllUsers, home, logout} from "../controllers/user-controller.js"
+// import { validator } from "../Middlewares.js";
 
 const router = express.Router();
-router.use(authMiddleWare);
+router.get('/home',home)
 router.get('/',getAllUsers)
 router.delete('/:id',deleteUser);
 router.delete('/',deleteAll);
 router.post('/logout',logout)
-router.post('/check-session',checkSession);
-router.post('/refresh-session',refreshSession);
 
 export default router;

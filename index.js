@@ -13,7 +13,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://my-todo-app-72.vercel.app",
-    // origin: "http://localhost:5173",
+    origin: "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -26,6 +26,8 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/todo", todoRouter);
+
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

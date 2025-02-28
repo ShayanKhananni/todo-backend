@@ -10,18 +10,19 @@ export const signup = async (req, res, next) => {
   try {
     const saved = await newUser.save();
     if (!saved) return res.status(409).json({ message: "user already exist" });
-    res.status(200).json({ message: "User created successfully" });
+    return res.status(200).json({ message: "User created successfully" });
   } catch (err) {
+    
     if (err.code === 11000) {
-      if (err.message.includes("email")) {
-        next(customError(409, "Email already exist"));
-      } else {
-        next(customError(409, "Username already exist"));
+      if (err.keyValue && err.keyValue.email) {
+        return next(customError(409, "Email already exists"));
       }
+      return next(customError(409, "Username already exists"));
     }
-    return next(customError(500, "Internal server error"));
+    return next(customError(500, err.message || "Internal server error"));
   }
-};
+  }
+
 
 export const signinGoogle = async (req, res, next) => {
   try {

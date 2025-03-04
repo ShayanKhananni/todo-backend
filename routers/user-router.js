@@ -1,12 +1,15 @@
 import express from "express";
-import {deleteAll, deleteUser, getAllUsers, home, logout} from "../controllers/user-controller.js"
-// import { validator } from "../Middlewares.js";
+import {deleteUser, logout, updateProfile} from "../controllers/user-controller.js"
+import multer from "multer";
 
-const router = express.Router();
-router.get('/home',home)
-router.get('/',getAllUsers)
-router.delete('/:id',deleteUser);
-router.delete('/',deleteAll);
-router.post('/logout',logout)
 
-export default router;
+const storage = multer.memoryStorage();
+const upload = multer({storage:storage});
+
+const userRouter = express.Router();
+// userRouter.use(validateAccessToken);
+userRouter.delete('/:id',deleteUser);
+userRouter.post('/logout',logout)
+userRouter.put('/updateProfile',upload.single('image'),updateProfile)
+
+export default userRouter;

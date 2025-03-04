@@ -6,10 +6,14 @@ import authRouter from "./routers/auth-router.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import todoRouter from "./routers/todo-router.js";
+import {v2 as cloudinary} from "cloudinary";
+
 
 dotenv.config();
 
 const app = express();
+
+
 app.use(
   cors({
     origin: "https://my-todo-app-72.vercel.app",
@@ -19,6 +23,13 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 
 app.use(cookieParser());
 app.use(express.json());

@@ -24,8 +24,6 @@ export const addTodo = async (req, res, next) => {
 
 
 
-
-
 export const getTodos = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -42,7 +40,6 @@ export const getTodos = async (req, res, next) => {
 };
 
 
-
 export const updateTodo = async (req, res, next) => {
   const { _id, ...updates } = req.body;
   try {
@@ -52,7 +49,7 @@ export const updateTodo = async (req, res, next) => {
     });
 
     if (!updatedTodo) {
-      res.status(404).json({ message: "Todo Not Found" });
+      next();
     }
 
     res.status(200).json({ message: "Todo Updated Successfully", updatedTodo });
